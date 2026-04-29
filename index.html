@@ -95,7 +95,6 @@
                         console.error(err);
                         document.getElementById('race-info').textContent = 'Failed to load race data.';
                     }
-                    setInterval(loadNextRace, 1440 * 60 * 1000); // refresh every 24 hours
                     }
 
                     loadNextRace();

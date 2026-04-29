@@ -73,53 +73,6 @@ label {
   line-height: 1;
 }
 
-.gray {
-  color: #5a5a5a !important;
-}
-
-.link__hover-effect {
-  position: relative;
-}
-
-.link__hover-effect:after {
-  content: "";
-  position: absolute;
-  bottom: -3px;
-  right: 0;
-  height: 3px;
-  width: 0;
-  transition: all 300ms ease;
-}
-
-.link__hover-effect--black:after {
-  background-color: #fff;
-}
-
-.link__hover-effect--white:after {
-  background-color: #fff;
-}
-
-.link__hover-effect:hover:after {
-  left: 0;
-  width: 100%;
-}
-
-nav,
-.scroll,
-.header {
-  opacity: 1;
-  visibility: visible;
-  transition: all 300ms 400ms ease;
-}
-
-.modal--open nav,
-.modal--open .scroll,
-.modal--open .header {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 300ms ease;
-}
-
 /* 
 
     LANDING PAGE
@@ -258,11 +211,19 @@ Search Bar
   background-color: #5a5a5a;
 }
 
-/* Schecule */
+/* Schedule */
 .next-race__card {
   display: flex;
   align-items: column;
   justify-content: center;
+}
+
+#race-info {
+  font-size: 36px;
+}
+
+.next-race__title {
+  font-size: 40px;
 }
 
 /*  Grids for Drivers and Teams */
@@ -337,9 +298,31 @@ section {
 
 /* Driver Standings */
 
+table {
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 1600px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+#th {
+  border: 2px solid #1c1c25;
+  padding: 4px;
+  text-align: left;
+  background-color: #eee;
+}
+
+#td {
+  border-bottom: 1px solid #1c1c25;
+  padding: 4px;
+  text-align: left;
+  background-color: #eee;
+}
+
 .table__standings--driver,
 .table__standings--teams {
   width: 90%;
+  min-width: 300px;
   max-width: 1600px;
   border-collapse: collapse;
 }
@@ -369,4 +352,101 @@ section {
 
 .team__td:hover {
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav__logo--main {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+  .nav__logo--league {
+    display: none;
+  }
+
+  .nav__link {
+    display: none;
+  }
+
+  .title {
+    font-size: 60px;
+  }
+  .f1Titles {
+    font-size: 56px;
+  }
+  .nav__link:first-child {
+    display: none;
+  }
+
+  .next-race__title {
+    font-size: 40px;
+  }
+
+  #race-info {
+    font-size: 32px;
+  }
+
+  #driver__standings {
+    max-width: 100%;
+  }
+
+  td,
+  th {
+    font-size: 20px;
+    padding: 4px;
+  }
+
+  .title {
+    font-size: 80px;
+  }
+  .header__para {
+    font-size: 20px;
+  }
+}
+
+/*
+
+    SMALL PHONES
+
+*/
+
+@media (max-width: 480px) {
+  .nav__logo--main {
+    max-width: 75%;
+    margin: 0 auto;
+  }
+  .nav__logo--league {
+    display: none;
+  }
+
+  .nav__link {
+    display: none;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+  .f1Titles {
+    font-size: 48px;
+  }
+  .nav__link:first-child {
+    display: none;
+  }
+
+  .next-race__title {
+    font-size: 32px;
+  }
+
+  #race-info {
+    font-size: 24px;
+  }
+
+  #driver__standings {
+    max-width: 300px;
+  }
+
+  td,
+  th {
+    font-size: 12px;
+    padding: 2px;
+  }
 }
