@@ -102,187 +102,137 @@
             </div>
         </div>
       </section>
-
       <section id="drivers">
         <h2 class="f1Titles">Search Drivers</h2>
         <!-- <select id="driverDropdown"> -->
-        <style>
-       
-        </style>
-        </head>
-
-        <body>
-
         <h2>Search by Name or Select Menu</h2>
-
         <div class="dropdown">
-          <input type="text" id="searchInput" placeholder="Search driver...">
-          <span id="clearBtn">✕</span>
-          <div class="dropdown-list" id="dropdownList"></div>
+    <div class="dropdown-selected" id="selected">
+        <span>Select Driver</span>
+    </div>
+
+    <div class="dropdown-list" id="dropdownList">
+
+        <div class="dropdown-item" data-name="Alexander Albon">
+            <img src="./assets/lrgdriver posters/Alexander Albon poster.png">Alexander Albon
         </div>
 
-        <div id="displayArea"></div>
-
-        <!-- ORIGINAL DRIVER LIST (SOURCE ONLY) -->
-        <div class="grid-container__drivers">
-          <img src="./assets/lrgdriver posters/Alexander Albon poster.png">
-          <img src="./assets/lrgdriver posters/arvid lindblad poster.png">
-          <img src="./assets/lrgdriver posters/carlos sainz poster.png">
-          <img src="./assets/lrgdriver posters/charles leclerc poster.png">
-          <img src="./assets/lrgdriver posters/Esteban Ocon Poster.png">
-          <img src="./assets/lrgdriver posters/fernando alonso poster.png">
-          <img src="./assets/lrgdriver posters/franco colapinto poster.png">
-          <img src="./assets/lrgdriver posters/gabriel bortoleto poster.png">
-          <img src="./assets/lrgdriver posters/george russel poster.png">
-          <img src="./assets/lrgdriver posters/isak hadjar poster.png">
-          <img src="./assets/lrgdriver posters/kimi antonellie poster.png">
-          <img src="./assets/lrgdriver posters/lance stroll poster.png">
-          <img src="./assets/lrgdriver posters/lando norris poster.png">
-          <img src="./assets/lrgdriver posters/lewis hamilton poster.png">
-          <img src="./assets/lrgdriver posters/liam lawson poster.png">
-          <img src="./assets/lrgdriver posters/max verstappen poster.png">
-          <img src="./assets/lrgdriver posters/Nico Hulkenberg poster.png">
-          <img src="./assets/lrgdriver posters/oliver bearman poster.png">
-          <img src="./assets/lrgdriver posters/oscar piastri poster.png">
-          <img src="./assets/lrgdriver posters/pierre gasly poster.png">
-          <img src="./assets/lrgdriver posters/sergio perez poster.png">
-          <img src="./assets/lrgdriver posters/valterri bottas.png">
+        <div class="dropdown-item" data-name="Arvid Lindblad">
+            <img src="./assets/lrgdriver posters/arvid lindblad poster.png">Arvid Lindblad
         </div>
 
-        <script>
-        const rawImages = document.querySelectorAll('.grid-container__drivers img');
-        const dropdown = document.getElementById('dropdownList');
-        const input = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearBtn');
-        const display = document.getElementById('displayArea');
+        <div class="dropdown-item" data-name="Carlos Sainz">
+            <img src="./assets/lrgdriver posters/carlos sainz poster.png">Carlos Sainz
+        </div>
 
-        let drivers = [];
-        let activeIndex = -1;
+        <div class="dropdown-item" data-name="Charles Leclerc">
+            <img src="./assets/lrgdriver posters/charles leclerc poster.png">Charles Leclerc
+        </div>
 
-        /* ---------- BUILD DATA ---------- */
-        rawImages.forEach((img, index) => {
-          const file = img.src.split('/').pop();
-          const name = file.replace(/poster|\.png/gi, '').trim();
+        <div class="dropdown-item" data-name="Esteban Ocon">
+            <img src="./assets/lrgdriver posters/Esteban Ocon Poster.png">Esteban Ocon
+        </div>
 
-          drivers.push({
-            name,
-            index,
-            src: img.src
-          });
+        <div class="dropdown-item" data-name="Fernando Alonso">
+            <img src="./assets/lrgdriver posters/fernando alonso poster.png">Fernando Alonso
+        </div>
 
-          const clone = img.cloneNode();
-          clone.dataset.index = index;
-          display.appendChild(clone);
-        });
+        <div class="dropdown-item" data-name="Franco Colapinto">
+            <img src="./assets/lrgdriver posters/franco colapinto poster.png">Franco Colapinto
+        </div>
 
-        /* ---------- FUZZY SEARCH ---------- */
-        function fuzzyMatch(str, query) {
-          str = str.toLowerCase();
-          query = query.toLowerCase();
+        <div class="dropdown-item" data-name="Gabriel Bortoleto">
+            <img src="./assets/lrgdriver posters/gabriel bortoleto poster.png">Gabriel Bortoleto
+        </div>
 
-          let i = 0, j = 0;
-          while (i < str.length && j < query.length) {
-            if (str[i] === query[j]) j++;
-            i++;
-          }
-          return j === query.length;
-        }
+        <div class="dropdown-item" data-name="George Russell">
+            <img src="./assets/lrgdriver posters/george russel poster.png">George Russell
+        </div>
 
-        /* ---------- RENDER DROPDOWN ---------- */
-        function render(filter = "") {
-          dropdown.innerHTML = "";
-          activeIndex = -1;
+        <div class="dropdown-item" data-name="Isack Hadjar">
+            <img src="./assets/lrgdriver posters/isak hadjar poster.png">Isack Hadjar
+        </div>
 
-          const results = drivers.filter(d =>
-            d.name.toLowerCase().includes(filter.toLowerCase()) ||
-            fuzzyMatch(d.name, filter)
-          );
+        <div class="dropdown-item" data-name="Kimi Antonelli">
+            <img src="./assets/lrgdriver posters/kimi antonellie poster.png">Kimi Antonelli
+        </div>
 
-          results.forEach((d, i) => {
-            const div = document.createElement("div");
-            div.className = "item";
-            div.dataset.index = d.index;
+        <div class="dropdown-item" data-name="Lance Stroll">
+            <img src="./assets/lrgdriver posters/lance stroll poster.png">Lance Stroll
+        </div>
 
-            div.innerHTML = `
-              <img src="${d.src}">
-              <span>${d.name}</span>
-            `;
+        <div class="dropdown-item" data-name="Lando Norris">
+            <img src="./assets/lrgdriver posters/lando norris poster.png">Lando Norris
+        </div>
 
-            div.addEventListener("click", () => selectDriver(d.index));
-            dropdown.appendChild(div);
-          });
+        <div class="dropdown-item" data-name="Lewis Hamilton">
+            <img src="./assets/lrgdriver posters/lewis hamilton poster.png">Lewis Hamilton
+        </div>
 
-          dropdown.style.display = results.length ? "block" : "none";
-          clearBtn.style.display = filter ? "block" : "none";
-        }
+        <div class="dropdown-item" data-name="Liam Lawson">
+            <img src="./assets/lrgdriver posters/liam lawson poster.png">Liam Lawson
+        </div>
 
-        /* ---------- SELECT DRIVER ---------- */
-        function selectDriver(index) {
-          display.querySelectorAll("img").forEach(img => {
-            img.style.display = "none";
-          });
+        <div class="dropdown-item" data-name="Max Verstappen">
+            <img src="./assets/lrgdriver posters/max verstappen poster.png">Max Verstappen
+        </div>
 
-          const selected = display.querySelector(`img[data-index='${index}']`);
-          if (selected) selected.style.display = "block";
+        <div class="dropdown-item" data-name="Nico Hulkenberg">
+            <img src="./assets/lrgdriver posters/Nico Hulkenberg poster.png">Nico Hulkenberg
+        </div>
 
-          input.value = drivers.find(d => d.index === index).name;
+        <div class="dropdown-item" data-name="Oliver Bearman">
+            <img src="./assets/lrgdriver posters/oliver bearman poster.png">Oliver Bearman
+        </div>
 
-          dropdown.style.display = "none";
-        }
+        <div class="dropdown-item" data-name="Oscar Piastri">
+            <img src="./assets/lrgdriver posters/oscar piastri poster.png">Oscar Piastri
+        </div>
 
-        /* ---------- KEYBOARD NAV ---------- */
-        input.addEventListener("keydown", (e) => {
-          const items = dropdown.querySelectorAll(".item");
+        <div class="dropdown-item" data-name="Pierre Gasly">
+            <img src="./assets/lrgdriver posters/pierre gasly poster.png">Pierre Gasly
+        </div>
 
-          if (!items.length) return;
+        <div class="dropdown-item" data-name="Sergio Perez">
+            <img src="./assets/lrgdriver posters/sergio perez poster.png">Sergio Perez
+        </div>
 
-          if (e.key === "ArrowDown") {
-            activeIndex = (activeIndex + 1) % items.length;
-          }
+        <div class="dropdown-item" data-name="Valtteri Bottas">
+            <img src="./assets/lrgdriver posters/valterri bottas.png">Valtteri Bottas
+        </div>
 
-          if (e.key === "ArrowUp") {
-            activeIndex = (activeIndex - 1 + items.length) % items.length;
-          }
+    </div>
+</div>
 
-          if (e.key === "Enter") {
-            if (items[activeIndex]) {
-              items[activeIndex].click();
-            }
-          }
+<script>
+const selected = document.getElementById("selected");
+const list = document.getElementById("dropdownList");
 
-          if (e.key === "Escape") {
-            dropdown.style.display = "none";
-          }
+// Toggle dropdown
+selected.addEventListener("click", () => {
+    list.style.display = list.style.display === "block" ? "none" : "block";
+});
 
-          items.forEach(i => i.classList.remove("active"));
-          if (items[activeIndex]) {
-            items[activeIndex].classList.add("active");
-          }
-        });
+// Select item
+document.querySelectorAll(".dropdown-item").forEach(item => {
+    item.addEventListener("click", () => {
+        selected.innerHTML = item.innerHTML;
+        list.style.display = "none";
+    });
+});
 
-        /* ---------- INPUT EVENTS ---------- */
-        input.addEventListener("input", () => render(input.value));
-        input.addEventListener("focus", () => render(input.value));
+// Close if clicked outside
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".dropdown")) {
+        list.style.display = "none";
+    }
+});
+</script>
 
-        /* ---------- CLEAR BUTTON ---------- */
-        clearBtn.addEventListener("click", () => {
-          input.value = "";
-          dropdown.style.display = "none";
-          clearBtn.style.display = "none";
 
-          display.querySelectorAll("img").forEach(img => {
-            img.style.display = "none";
-          });
-        });
 
-        /* ---------- CLICK OUTSIDE CLOSE ---------- */
-        document.addEventListener("click", (e) => {
-          if (!e.target.closest(".dropdown")) {
-            dropdown.style.display = "none";
-          }
-        });
-        </script>
-
+        
+          
               
         <!-- <div class="grid-container__drivers">
                 
@@ -311,25 +261,122 @@
                 
             </div>  -->
 
-    </section>
+         <h2 class="f1Titles">Search All Drivers</h2>
+      <div class="dropdown">
+        <input id="search" placeholder="Search drivers (verstappen, lewis, max...)" />
+      </div>
+    <div class="container">
+    <div id="grid" class="grid"></div>
+  </div>
+
+  <script>
+  let allDrivers = [];
+
+  // 🔄 Load dataset (deduplicated)
+  async function loadDrivers() {
+    const queries = ["a", "le", "ver", "ham", "max", "char"];
+
+    const results = await Promise.all(
+      queries.map(q =>
+        fetch(`https://f1api.dev/api/drivers/search?q=${q}`)
+          .then(r => r.json())
+          .catch(() => ({ drivers: [] }))
+      )
+    );
+
+    const merged = results.flatMap(r => r.drivers || []);
+
+    const unique = new Map();
+
+    merged.forEach(d => {
+      const key = (d.name + d.surname).toLowerCase();
+      unique.set(key, d);
+    });
+
+    allDrivers = Array.from(unique.values());
+
+    render(allDrivers.slice(0, 6));
+  }
+
+  // 🔥 FUZZY SCORING ENGINE
+  function fuzzyScore(text, query) {
+    text = text.toLowerCase();
+    query = query.toLowerCase();
+
+    if (!query) return 0;
+    if (text === query) return 100;
+    if (text.includes(query)) return 80;
+
+    let score = 0;
+    let qi = 0;
+
+    for (let i = 0; i < text.length && qi < query.length; i++) {
+      if (text[i] === query[qi]) {
+        score += 10;
+        qi++;
+      }
+    }
+
+    return qi === query.length ? score : score - 5;
+  }
+
+  // 🧠 Search + rank + LIMIT 6
+  function searchDrivers(query) {
+    if (!query) return allDrivers.slice(0, 6);
+
+    return allDrivers
+      .map(d => {
+        const full = `${d.name} ${d.surname}`;
+
+        const score = Math.max(
+          fuzzyScore(full, query),
+          fuzzyScore(d.name, query),
+          fuzzyScore(d.surname, query)
+        );
+
+        return { ...d, score };
+      })
+      .filter(d => d.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6); // ⭐ LIMIT TO TOP 6
+  }
+
+  // 🎨 Render UI
+  function render(list) {
+    const grid = document.getElementById("grid");
+
+    if (!list.length) {
+      grid.innerHTML = "<p>No drivers found.</p>";
+      return;
+    }
+
+    grid.innerHTML = list.map(d => `
+      <div class="card">
+        <div class="name">${d.name} ${d.surname}</div>
+        <div class="meta">Nationality: ${d.nationality || "N/A"}</div>
+        <div class="meta">Number: ${d.number ?? "N/A"}</div>
+        <div class="meta">DOB: ${d.birthday || "N/A"}</div>
+        <div class="score">Relevance Score: ${d.score ?? 0}</div>
+        <a href="${d.url}" target="_blank" style="color:#60a5fa;">Wikipedia</a>
+      </div>
+    `).join("");
+  }
+
+  // ⌨️ Live search
+  document.getElementById("search").addEventListener("input", (e) => {
+    const results = searchDrivers(e.target.value.trim());
+    render(results);
+  });
+
+  loadDrivers();
+</script>
+
+
+</section>
     <section id="driver__standings">
         <h2 class="f1Titles">Driver Standings</h2>
         <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin: 20px auto;
-      font-family: Arial, sans-serif;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-    th {
-      background-color: #111;
-      color: #fff;
-    }
+    
   </style>
 </head>
 <body>

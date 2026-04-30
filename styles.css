@@ -42,6 +42,12 @@ label {
   font-weight: bold;
 }
 
+img {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 .container {
   padding: 50px 0;
   width: 100%;
@@ -259,6 +265,24 @@ body {
   font-size: 40px;
 }
 
+/* Search Bar and Drop Down Menu */
+
+#searchInput {
+  width: 100%;
+  max-width: 768px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#search {
+  width: 100%;
+  max-width: 768px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
 /*  Grids for Drivers and Teams */
 
 section {
@@ -305,13 +329,13 @@ section {
   width: 97.5%;
 } */
 
-.gridContainer > div:nth-child(1) {
+/* .gridContainer > div:nth-child(1) {
   grid-column: 1 / span 2;
 }
 
 .gridContainer > div {
   background-color: #ccc;
-}
+} */
 
 .section__divider {
   font-size: 80px;
@@ -329,15 +353,22 @@ section {
   margin-left: 20px;
 }
 
+.dropdown-item {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1600px;
+}
+
 /* Driver Standings */
 
-table {
+/* table {
   border-collapse: collapse;
   width: 90%;
   max-width: 1600px;
   margin: 20px auto;
   font-family: Arial, sans-serif;
 }
+
 #th {
   border: 2px solid #1c1c25;
   padding: 4px;
@@ -350,6 +381,33 @@ table {
   padding: 4px;
   text-align: left;
   background-color: #eee;
+} */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 1600px;
+  margin: 20px auto;
+  font-family:
+    Titillium Web,
+    sans-serif;
+}
+
+th,
+td {
+  border-bottom: 1px solid #1c1c25;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background-color: #1c1c25;
+  color: #fff;
+}
+
+td,
+th {
+  font-size: 20px;
+  padding: 4px;
 }
 
 .table__standings--driver,
@@ -428,6 +486,14 @@ table {
     box-sizing: border-box;
   }
 
+  #search {
+    width: 100%;
+    max-width: 768px;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
   #displayArea img {
     width: 100%;
     max-width: 768px;
@@ -438,6 +504,26 @@ table {
 
   #driver__standings {
     max-width: 100%;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+    font-family:
+      Titillium Web,
+      sans-serif;
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid #1c1c25;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #1c1c25;
+    color: #fff;
   }
 
   td,
@@ -504,6 +590,15 @@ table {
   }
 
   #searchInput {
+    width: 100%;
+    max-width: 264px;
+    padding: 5px;
+    font-size: 12px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  #search {
     width: 100%;
     max-width: 264px;
     padding: 5px;
