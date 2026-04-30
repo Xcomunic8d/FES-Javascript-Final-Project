@@ -101,13 +101,190 @@
                 </script>
             </div>
         </div>
-    </section>
-    
+      </section>
 
-    <section id="drivers">
-        <h2 class="f1Titles">Drivers</h2>
-              
+      <section id="drivers">
+        <h2 class="f1Titles">Search Drivers</h2>
+        <!-- <select id="driverDropdown"> -->
+        <style>
+       
+        </style>
+        </head>
+
+        <body>
+
+        <h2>Search by Name or Select Menu</h2>
+
+        <div class="dropdown">
+          <input type="text" id="searchInput" placeholder="Search driver...">
+          <span id="clearBtn">✕</span>
+          <div class="dropdown-list" id="dropdownList"></div>
+        </div>
+
+        <div id="displayArea"></div>
+
+        <!-- ORIGINAL DRIVER LIST (SOURCE ONLY) -->
         <div class="grid-container__drivers">
+          <img src="./assets/lrgdriver posters/Alexander Albon poster.png">
+          <img src="./assets/lrgdriver posters/arvid lindblad poster.png">
+          <img src="./assets/lrgdriver posters/carlos sainz poster.png">
+          <img src="./assets/lrgdriver posters/charles leclerc poster.png">
+          <img src="./assets/lrgdriver posters/Esteban Ocon Poster.png">
+          <img src="./assets/lrgdriver posters/fernando alonso poster.png">
+          <img src="./assets/lrgdriver posters/franco colapinto poster.png">
+          <img src="./assets/lrgdriver posters/gabriel bortoleto poster.png">
+          <img src="./assets/lrgdriver posters/george russel poster.png">
+          <img src="./assets/lrgdriver posters/isak hadjar poster.png">
+          <img src="./assets/lrgdriver posters/kimi antonellie poster.png">
+          <img src="./assets/lrgdriver posters/lance stroll poster.png">
+          <img src="./assets/lrgdriver posters/lando norris poster.png">
+          <img src="./assets/lrgdriver posters/lewis hamilton poster.png">
+          <img src="./assets/lrgdriver posters/liam lawson poster.png">
+          <img src="./assets/lrgdriver posters/max verstappen poster.png">
+          <img src="./assets/lrgdriver posters/Nico Hulkenberg poster.png">
+          <img src="./assets/lrgdriver posters/oliver bearman poster.png">
+          <img src="./assets/lrgdriver posters/oscar piastri poster.png">
+          <img src="./assets/lrgdriver posters/pierre gasly poster.png">
+          <img src="./assets/lrgdriver posters/sergio perez poster.png">
+          <img src="./assets/lrgdriver posters/valterri bottas.png">
+        </div>
+
+        <script>
+        const rawImages = document.querySelectorAll('.grid-container__drivers img');
+        const dropdown = document.getElementById('dropdownList');
+        const input = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const display = document.getElementById('displayArea');
+
+        let drivers = [];
+        let activeIndex = -1;
+
+        /* ---------- BUILD DATA ---------- */
+        rawImages.forEach((img, index) => {
+          const file = img.src.split('/').pop();
+          const name = file.replace(/poster|\.png/gi, '').trim();
+
+          drivers.push({
+            name,
+            index,
+            src: img.src
+          });
+
+          const clone = img.cloneNode();
+          clone.dataset.index = index;
+          display.appendChild(clone);
+        });
+
+        /* ---------- FUZZY SEARCH ---------- */
+        function fuzzyMatch(str, query) {
+          str = str.toLowerCase();
+          query = query.toLowerCase();
+
+          let i = 0, j = 0;
+          while (i < str.length && j < query.length) {
+            if (str[i] === query[j]) j++;
+            i++;
+          }
+          return j === query.length;
+        }
+
+        /* ---------- RENDER DROPDOWN ---------- */
+        function render(filter = "") {
+          dropdown.innerHTML = "";
+          activeIndex = -1;
+
+          const results = drivers.filter(d =>
+            d.name.toLowerCase().includes(filter.toLowerCase()) ||
+            fuzzyMatch(d.name, filter)
+          );
+
+          results.forEach((d, i) => {
+            const div = document.createElement("div");
+            div.className = "item";
+            div.dataset.index = d.index;
+
+            div.innerHTML = `
+              <img src="${d.src}">
+              <span>${d.name}</span>
+            `;
+
+            div.addEventListener("click", () => selectDriver(d.index));
+            dropdown.appendChild(div);
+          });
+
+          dropdown.style.display = results.length ? "block" : "none";
+          clearBtn.style.display = filter ? "block" : "none";
+        }
+
+        /* ---------- SELECT DRIVER ---------- */
+        function selectDriver(index) {
+          display.querySelectorAll("img").forEach(img => {
+            img.style.display = "none";
+          });
+
+          const selected = display.querySelector(`img[data-index='${index}']`);
+          if (selected) selected.style.display = "block";
+
+          input.value = drivers.find(d => d.index === index).name;
+
+          dropdown.style.display = "none";
+        }
+
+        /* ---------- KEYBOARD NAV ---------- */
+        input.addEventListener("keydown", (e) => {
+          const items = dropdown.querySelectorAll(".item");
+
+          if (!items.length) return;
+
+          if (e.key === "ArrowDown") {
+            activeIndex = (activeIndex + 1) % items.length;
+          }
+
+          if (e.key === "ArrowUp") {
+            activeIndex = (activeIndex - 1 + items.length) % items.length;
+          }
+
+          if (e.key === "Enter") {
+            if (items[activeIndex]) {
+              items[activeIndex].click();
+            }
+          }
+
+          if (e.key === "Escape") {
+            dropdown.style.display = "none";
+          }
+
+          items.forEach(i => i.classList.remove("active"));
+          if (items[activeIndex]) {
+            items[activeIndex].classList.add("active");
+          }
+        });
+
+        /* ---------- INPUT EVENTS ---------- */
+        input.addEventListener("input", () => render(input.value));
+        input.addEventListener("focus", () => render(input.value));
+
+        /* ---------- CLEAR BUTTON ---------- */
+        clearBtn.addEventListener("click", () => {
+          input.value = "";
+          dropdown.style.display = "none";
+          clearBtn.style.display = "none";
+
+          display.querySelectorAll("img").forEach(img => {
+            img.style.display = "none";
+          });
+        });
+
+        /* ---------- CLICK OUTSIDE CLOSE ---------- */
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".dropdown")) {
+            dropdown.style.display = "none";
+          }
+        });
+        </script>
+
+              
+        <!-- <div class="grid-container__drivers">
                 
             <img src="./assets/lrgdriver posters/Alexander Albon poster.png" class="driver click">        
             <img src="./assets/lrgdriver posters/arvid lindblad poster.png" class="driver click" alt="">        
@@ -132,7 +309,7 @@
             <img src="./assets/lrgdriver posters/sergio perez poster.png" class="driver click">
             <img src="./assets/lrgdriver posters/valterri bottas.png" class="driver click">
                 
-            </div> 
+            </div>  -->
 
     </section>
     <section id="driver__standings">

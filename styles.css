@@ -156,9 +156,87 @@ footer {
   margin-right: 24px;
 }
 
-/*
-Search Bar 
-*/
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f7f7f7;
+}
+
+/* ---------- DROPDOWN ---------- */
+.dropdown {
+  width: 340px;
+  margin: 30px auto;
+  position: relative;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+/* Clear button */
+#clearBtn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  display: none;
+  user-select: none;
+}
+
+/* Dropdown list */
+.dropdown-list {
+  position: absolute;
+  width: 100%;
+  max-height: 260px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background: white;
+  display: none;
+  z-index: 1000;
+}
+
+/* Each item */
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.item img {
+  width: 40px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.item:hover,
+.item.active {
+  background: #eee;
+}
+
+/* ---------- DISPLAY AREA ---------- */
+#displayArea {
+  margin-top: 20px;
+}
+
+#displayArea img {
+  width: 100%;
+  max-width: 1600px;
+  display: none;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+/* Hide original images */
+.grid-container__drivers {
+  display: none;
+}
 
 /* Right column (page content) */
 .right {
@@ -209,7 +287,7 @@ section {
   max-width: 97.5%;
   object-fit: contain;
 }
-
+/* 
 .grid-container__drivers {
   background-color: #eee;
   width: 100%;
@@ -225,7 +303,7 @@ section {
   margin-left: 10px;
   margin-bottom: 10px;
   width: 97.5%;
-}
+} */
 
 .gridContainer > div:nth-child(1) {
   grid-column: 1 / span 2;
@@ -342,6 +420,22 @@ table {
     font-size: 32px;
   }
 
+  #searchInput {
+    width: 100%;
+    max-width: 768px;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  #displayArea img {
+    width: 100%;
+    max-width: 768px;
+    display: none;
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+
   #driver__standings {
     max-width: 100%;
   }
@@ -401,6 +495,29 @@ table {
 
   #race-info {
     font-size: 24px;
+  }
+
+  .dropdown {
+    width: 300px;
+    margin: 5px auto;
+    position: relative;
+  }
+
+  #searchInput {
+    width: 100%;
+    max-width: 264px;
+    padding: 5px;
+    font-size: 12px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+
+  #displayArea img {
+    width: 100%;
+    max-width: 300px;
+    display: none;
+    border-radius: 8px;
+    margin: 0 auto;
   }
 
   #driver__standings {
