@@ -258,115 +258,159 @@ document.addEventListener("click", (e) => {
             </div>  -->
 <section>
          <h2 class="f1Titles">Search All Drivers</h2>
-      <div class="dropdown">
-        <input id="search" placeholder="Search drivers (verstappen, lewis, max...)" />
-      </div>
-    <div class="container">
-    <div id="grid" class="grid"></div>
-  </div>
+     <div class="dropdown">
+  <input id="search" placeholder="Search drivers (verstappen, lewis, max...)" />
 
-  <script>
-  let allDrivers = [];
+  <select id="sort">
+    <option value="relevance">Relevance</option>
+    <option value="az">A–Z</option>
+    <option value="za">Z–A</option>
+    <option value="dob_asc">DOB (Oldest → Youngest)</option>
+    <option value="dob_desc">DOB (Youngest → Oldest)</option>
+  </select>
+</div>
 
-  // 🔄 Load dataset (deduplicated)
-  async function loadDrivers() {
-    const queries = ["a", "le", "ver", "ham", "max", "char"];
+<div class="container">
+  <div id="grid" class="grid"></div>
+</div>
 
-    const results = await Promise.all(
-      queries.map(q =>
-        fetch(`https://f1api.dev/api/drivers/search?q=${q}`)
-          .then(r => r.json())
-          .catch(() => ({ drivers: [] }))
-      )
-    );
+<script>
+let allDrivers = [];
 
-    const merged = results.flatMap(r => r.drivers || []);
+// 🔄 Load dataset
+async function loadDrivers() {
+  const queries = ["a", "le", "ver", "ham", "max", "char"];
 
-    const unique = new Map();
+  const results = await Promise.all(
+    queries.map(q =>
+      fetch(`https://f1api.dev/api/drivers/search?q=${q}`)
+        .then(r => r.json())
+        .catch(() => ({ drivers: [] }))
+    )
+  );
 
-    merged.forEach(d => {
-      const key = (d.name + d.surname).toLowerCase();
-      unique.set(key, d);
-    });
+  const merged = results.flatMap(r => r.drivers || []);
 
-    allDrivers = Array.from(unique.values());
-
-    render(allDrivers.slice(0, 6));
-  }
-
-  // 🔥 FUZZY SCORING ENGINE
-  function fuzzyScore(text, query) {
-    text = text.toLowerCase();
-    query = query.toLowerCase();
-
-    if (!query) return 0;
-    if (text === query) return 100;
-    if (text.includes(query)) return 80;
-
-    let score = 0;
-    let qi = 0;
-
-    for (let i = 0; i < text.length && qi < query.length; i++) {
-      if (text[i] === query[qi]) {
-        score += 10;
-        qi++;
-      }
-    }
-
-    return qi === query.length ? score : score - 5;
-  }
-
-  // 🧠 Search + rank + LIMIT 6
-  function searchDrivers(query) {
-    if (!query) return allDrivers.slice(0, 6);
-
-    return allDrivers
-      .map(d => {
-        const full = `${d.name} ${d.surname}`;
-
-        const score = Math.max(
-          fuzzyScore(full, query),
-          fuzzyScore(d.name, query),
-          fuzzyScore(d.surname, query)
-        );
-
-        return { ...d, score };
-      })
-      .filter(d => d.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 6); // ⭐ LIMIT TO TOP 6
-  }
-
-  // 🎨 Render UI
-  function render(list) {
-    const grid = document.getElementById("grid");
-
-    if (!list.length) {
-      grid.innerHTML = "<p>No drivers found.</p>";
-      return;
-    }
-
-    grid.innerHTML = list.map(d => `
-      <div class="card">
-        <div class="name">${d.name} ${d.surname}</div>
-        <div class="meta">Nationality: ${d.nationality || "N/A"}</div>
-        <div class="meta">Number: ${d.number ?? "N/A"}</div>
-        <div class="meta">DOB: ${d.birthday || "N/A"}</div>
-        <div class="score">Relevance Score: ${d.score ?? 0}</div>
-        <a href="${d.url}" target="_blank" style="color:#60a5fa;">Wikipedia</a>
-      </div>
-    `).join("");
-  }
-
-  // ⌨️ Live search
-  document.getElementById("search").addEventListener("input", (e) => {
-    const results = searchDrivers(e.target.value.trim());
-    render(results);
+  const unique = new Map();
+  merged.forEach(d => {
+    const key = (d.name + d.surname).toLowerCase();
+    unique.set(key, d);
   });
 
-  loadDrivers();
-  </script>
+  allDrivers = Array.from(unique.values());
 
+  updateResults(); // render initial
+}
+
+// 🔥 Fuzzy scoring
+function fuzzyScore(text, query) {
+  text = text.toLowerCase();
+  query = query.toLowerCase();
+
+  if (!query) return 0;
+  if (text === query) return 100;
+  if (text.includes(query)) return 80;
+
+  let score = 0;
+  let qi = 0;
+
+  for (let i = 0; i < text.length && qi < query.length; i++) {
+    if (text[i] === query[qi]) {
+      score += 10;
+      qi++;
+    }
+  }
+
+  return qi === query.length ? score : score - 5;
+}
+
+// 🔤 Sort function
+function sortDrivers(list, sortType) {
+  const sorted = [...list];
+
+  switch (sortType) {
+    case "az":
+      return sorted.sort((a, b) =>
+        `${a.name} ${a.surname}`.localeCompare(`${b.name} ${b.surname}`)
+      );
+
+    case "za":
+      return sorted.sort((a, b) =>
+        `${b.name} ${b.surname}`.localeCompare(`${a.name} ${a.surname}`)
+      );
+
+    case "dob_asc":
+      return sorted.sort((a, b) =>
+        new Date(a.birthday || 0) - new Date(b.birthday || 0)
+      );
+
+    case "dob_desc":
+      return sorted.sort((a, b) =>
+        new Date(b.birthday || 0) - new Date(a.birthday || 0)
+      );
+
+    default:
+      return sorted; // keep relevance order
+  }
+}
+
+// 🧠 Search + rank + top 6 + sort
+function updateResults() {
+  const query = document.getElementById("search").value.trim();
+  const sortType = document.getElementById("sort").value;
+
+  let results = allDrivers
+    .map(d => {
+      const full = `${d.name} ${d.surname}`;
+
+      const score = query
+        ? Math.max(
+            fuzzyScore(full, query),
+            fuzzyScore(d.name, query),
+            fuzzyScore(d.surname, query)
+          )
+        : 1;
+
+      return { ...d, score };
+    })
+    .filter(d => d.score > 0)
+    .sort((a, b) => b.score - a.score) // rank first
+    .slice(0, 6); // take top 6
+
+  // apply sort to those 6
+  results = sortDrivers(results, sortType);
+
+  render(results);
+}
+
+// 🎨 Render UI
+function render(list) {
+  const grid = document.getElementById("grid");
+
+  if (!list.length) {
+    grid.innerHTML = "<p>No drivers found.</p>";
+    return;
+  }
+
+  grid.innerHTML = list.map(d => `
+    <div class="card">
+      <div class="name">${d.name} ${d.surname}</div>
+      <div class="meta">Nationality: ${d.nationality || "N/A"}</div>
+      <div class="meta">Number: ${d.number ?? "N/A"}</div>
+      <div class="meta">DOB: ${d.birthday || "N/A"}</div>
+      <div class="score">Relevance Score: ${d.score ?? 0}</div>
+      <a href="${d.url}" target="_blank" style="color:#60a5fa;">Wikipedia</a>
+    </div>
+  `).join("");
+}
+
+// ⌨️ Events
+document.getElementById("search").addEventListener("input", updateResults);
+document.getElementById("sort").addEventListener("change", updateResults);
+
+// 🚀 Init
+loadDrivers();
+</script>
 
 </section>
     <section id="driver__standings">
