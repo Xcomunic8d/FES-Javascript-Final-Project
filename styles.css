@@ -615,9 +615,9 @@ th {
     margin: 0 auto;
   }
 
-  #driver__standings {
+  /* #driver__standings {
     max-width: 300px;
-  }
+  } */
 
   td,
   th {
